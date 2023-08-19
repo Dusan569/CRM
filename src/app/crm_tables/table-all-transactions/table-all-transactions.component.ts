@@ -66,6 +66,8 @@ export class TableAllTransactionsComponent implements OnInit, OnDestroy {
       this.dataSource.data = updatedList;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      console.log(this.dataSource.data.length);
+      
     });
   }
 
