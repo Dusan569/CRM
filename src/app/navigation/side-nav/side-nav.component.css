@@ -1,0 +1,22 @@
+mat-drawer-container{
+    background-color: #21232F;
+    height: 100vh;
+}
+mat-drawer{
+    background-color: #313745;
+    width: 250px;
+
+}
+.example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  #logo{
+    width: 50px;
+    transition: 0.3s ease;
+}
+#logo:hover{
+    transform: scale(1.05);
+}
