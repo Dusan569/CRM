@@ -1,6 +1,7 @@
 export interface TableInterface{
     AccountName: string,
-    AccountNumber: number,
-    RoutingNumber: number,
-    AccountType: number,
+    AccountNumber: string,
+    RoutingNumber: string,
+    AccountType: string,
+    AccountToken: string
 }

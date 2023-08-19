@@ -24,7 +24,7 @@ export class TableStoreAccountComponent {
   //Table
   showTable = false;
   //Table clumns
-  displayedColumns: string[] = ['AccountName', 'AccountNumber', 'RoutingNumber', 'AccountType'];
+  displayedColumns: string[] = ['AccountName', 'AccountNumber', 'RoutingNumber', 'AccountType', 'AccountToken'];
   //Table data
   dataSource: MatTableDataSource<TableInterface> = new MatTableDataSource<TableInterface>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -62,29 +62,33 @@ onSubmit() {
       
       this.accountService.getAccountInfo(res.accountToken).subscribe(accInfo => {
         console.log(accInfo);
+        const account: TableInterface = {
+          AccountName: accInfo.AccountName,
+          AccountNumber: accInfo.AccountNumber,
+          RoutingNumber: accInfo.RoutingNumber,
+          AccountType: accInfo.AccountType.toString(),
+          AccountToken: accInfo.AccountToken
+        }
+        this.accountService.storeAccountInfoToFirebase([account]);
+        this.accountService.updateAccountInfoTable(account);
       })
     });
-
-      const account: TableInterface = {
-          AccountName: this.accountForm.value.AccountName as string,
-          AccountNumber: this.accountForm.value.accountNumber as unknown as number,
-          RoutingNumber: this.accountForm.value.routingNumber as unknown as number,
-          AccountType: this.accountForm.value.accountType as unknown as number,
-      }
-      this.accountService.storeAccountInfoToFirebase([account]);
-      this.accountService.updateAccountInfoTable(account);
-
-      //-------
-      // this.accountService.storeAccountInfoToAch(this.accountForm)
-      // .pipe(switchMap(accToken => {
-      //     return this.accountService.getAccountInfoFromAch(accToken);
-      // }))
-      // .subscribe(response => {
-      //     console.log("Account Info:", response);
-      // }, error => {
-      //     console.error("Error occurred:", error);
-      // });
+    this.resetForm();
   }
+}
+
+resetForm() {
+  this.accountForm.reset();
+
+  // Mark all controls as untouched and pristine to remove validation errors
+  Object.keys(this.accountForm.controls).forEach(key => {
+    const control = this.accountForm.get(key);
+    if (control) {
+      control.setErrors(null);
+      control.markAsPristine();
+      control.markAsUntouched();
+    }
+  });
 }
 
 

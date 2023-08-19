@@ -11,7 +11,7 @@ import { GetAccountInfoRes } from "./store-account-into-interfaces/get-account-i
 @Injectable({ providedIn: 'root' })
 export class AccountService{
 
-    private accounts: TableInterface[] = [];
+    public accounts: TableInterface[] = [];
     
     private accountListSubject = new BehaviorSubject<TableInterface[]>([]);
     accountListObservable$: Observable<TableInterface[]> = this.accountListSubject.asObservable();
@@ -57,8 +57,8 @@ export class AccountService{
             UserName: "WLOracle",
             Password: "Z9f!pKV4QfQJy0rwmEVJ"},
             AccountName: form.value.AccountName,
-                accountNumber: form.value.accountNumber.toString(),
-                routingNumber: form.value.routingNumber.toString(),
+                accountNumber: form.value.accountNumber,
+                routingNumber: form.value.routingNumber,
                 accountType: form.value.accountType.toString()	
             }
             console.log(request);
@@ -78,92 +78,4 @@ export class AccountService{
 
         return this.http.post<GetAccountInfoRes>('https://extest.achprocessing.com/Finanyzlrapi/api/ach/getAccountInfo', request);
     }
-
-
-
-
-
-    //-------------------------
-    // storeAccountInfoToAch(form: FormGroup): Observable<string> {
-    //     const request: AccountInfoRequest = {
-    //         Authentication: {
-    //             ApiKey: "56b96bda-ebe3-4932-b387-6743fec68e65",
-    //             UserName: "WLOracle",
-    //             Password: "Z9f!pKV4QfQJy0rwmEVJ"
-    //         },
-    //         AccountName: form.value.accountName,
-    //         accountNumber: form.value.accountNumber,
-    //         routingNumber: form.value.routingNumber,
-    //         accountType: form.value.accountType 
-    //     };
-    
-    //     return this.http.post<AccountInfoTokenResponse>('https://extest.achprocessing.com/Finanyzlrapi/api/ach/storeAccountInfo', request)
-    //     .pipe(map(response => {
-    //         if (response.accountToken) {
-    //             return response.accountToken;
-    //         } else {
-    //             throw new Error('Token is null or undefined.');
-    //         }
-    //     }),
-    //     catchError((error: HttpErrorResponse) => {
-    //         console.error("Detailed API Error:", error.error);
-    //         throw error;
-    //     }));
-    // }
-    
-    // getAccountInfoFromAch(accToken: string): Observable<GetAccountInfoResponse> {
-    //     const requestAccInfo: GetAccountInfoRequest = {
-    //         Authentication: {
-    //             ApiKey: "56b96bda-ebe3-4932-b387-6743fec68e65",
-    //             UserName: "WLOracle",
-    //             Password: "Z9f!pKV4QfQJy0rwmEVJ"
-    //         },
-    //         AccountToken: accToken
-    //     };
-    
-    //     return this.http.post<GetAccountInfoResponse>('https://extest.achprocessing.com/Finanyzlrapi/api/ach/getAccountInfo', requestAccInfo)
-    //     .pipe(catchError((error: HttpErrorResponse) => {
-    //             console.error("Detailed API Error:", error.error);
-    //             throw error;
-    //         }));
-    // }
-    
-
-    //------
-    // storeAndGetAccountInfo(form: FormGroup): Observable<GetAccountInfoResponse> {
-    //     const request: AccountInfoRequest = {
-    //         Authentication: {
-    //             ApiKey: "56b96bda-ebe3-4932-b387-6743fec68e65",
-    //             UserName: "WLOracle",
-    //             Password: "Z9f!pKV4QfQJy0rwmEVJ"
-    //         },
-    //         AccountName: form.value.accountName,  // Note the lowercase 'a'
-    //     accountNumber: form.value.accountNumber,  // Match the case from Postman
-    //     routingNumber: form.value.routingNumber,  // Match the case from Postman
-    //     accountType: form.value.accountType
-    //     };
-    
-    //     return this.http.post<AccountInfoTokenResponse>("https://extest.achprocessing.com/Finanyzlrapi/api/ach/storeAccountInfo", request).pipe(
-    //         switchMap(response => {
-    //             if (response && response.accountToken) {
-    //                 const requestAccInfo: GetAccountInfoRequest = {
-    //                     Authentication: {
-    //                         ApiKey: "56b96bda-ebe3-4932-b387-6743fec68e65",
-    //                         UserName: "WLOracle",
-    //                         Password: "Z9f!pKV4QfQJy0rwmEVJ"
-    //                     },
-    //                     AccountToken: response.accountToken
-    //                 };
-    //                 return this.http.post<GetAccountInfoResponse>("https://extest.achprocessing.com/Finanyzlrapi/api/ach/getAccountInfo", requestAccInfo);
-    //             } else {
-    //                 throw new Error('Token is null or undefined.');
-    //             }
-    //         }),
-    //         catchError((error: HttpErrorResponse) => {
-    //             console.error("Detailed API Error:", error.error);
-    //             throw error;
-    //         })
-    //     ); 
-
-    
 }
