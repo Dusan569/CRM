@@ -33,9 +33,8 @@ export class TableAllTransactionsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.fetchDataAndRefresh(); // Prvi put preuzmite podatke i osvežite tabelu
-
-    // Periodično ponavljajte zahtev svakih 5 sekundi
+    this.fetchDataAndRefresh(); 
+    
     interval(5000).pipe(
       takeUntil(this.destroy$),
       switchMap(async () => this.fetchDataAndRefresh())
