@@ -1,0 +1,92 @@
+<form class="example-form" [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="example-full-width">
+        <mat-label>Account Name</mat-label>
+        <input type="text" matInput [formControl]="accountNameFormControl" [errorStateMatcher]="matcher"
+               placeholder="Type name">
+        <mat-hint>Hint</mat-hint>
+        <mat-error *ngIf="accountNameFormControl.hasError('required')">
+          Account name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Account Number</mat-label>
+        <input type="number" matInput [formControl]="accountNumberFormControl" [errorStateMatcher]="matcher"
+               placeholder="Type account number">
+        <mat-hint>Hint</mat-hint>
+        <mat-error *ngIf="accountNumberFormControl.hasError('required')">
+          Account number is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Routing Number</mat-label>
+        <input type="number" matInput [formControl]="routingNumberFormControl" [errorStateMatcher]="matcher"
+               placeholder="Type routing number">
+        <mat-hint>Hint</mat-hint>
+        <mat-error *ngIf="routingNumberFormControl.hasError('required')">
+          Routing number is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Select account type</mat-label>
+        <mat-select [formControl]="accountTypeFormControl" [errorStateMatcher]="matcher">
+            <mat-option value="1">Checking</mat-option>
+            <mat-option value="2">Savings</mat-option>
+        </mat-select>
+        <mat-hint>Hint</mat-hint>
+        <mat-error *ngIf="accountTypeFormControl.hasError('required')">
+          Account type is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button type="submit" color="primary">Submit</button>
+</form>
+  
+
+<mat-form-field *ngIf="showTable">
+    <mat-label>Search</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Acc Name" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="AccountName" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Name </th>
+        <td mat-cell *matCellDef="let row"> {{row.AccountName}} </td>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="AccountNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Number </th>
+        <td mat-cell *matCellDef="let row"> {{row.AccountNumber}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="RoutingNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Routing Number </th>
+        <td mat-cell *matCellDef="let row"> {{row.RoutingNumber}} </td>
+    </ng-container>
+
+    <!-- Fruit Column -->
+    <ng-container matColumnDef="AccountType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Type </th>
+        <td mat-cell *matCellDef="let row"> {{row.AccountType == 1 ? "Checking" : "Savings" }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+        
+    </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+  
+  

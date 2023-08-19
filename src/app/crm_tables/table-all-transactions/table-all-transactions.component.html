@@ -5,25 +5,21 @@
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
 
-    <!-- ID Column -->
     <ng-container matColumnDef="AccountNumber" sticky>
         <th mat-header-cell *matHeaderCellDef mat-sort-header> AccountNumber </th>
         <td mat-cell *matCellDef="let row"> {{row.AccountNumber}} </td>
     </ng-container>
 
-    <!-- Progress Column -->
     <ng-container matColumnDef="AccountName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Name </th>
         <td mat-cell *matCellDef="let row"> {{row.AccountName}} </td>
     </ng-container>
 
-    <!-- Name Column -->
     <ng-container matColumnDef="UserData">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> User Data </th>
         <td mat-cell *matCellDef="let row"> {{row.UserData}} </td>
     </ng-container>
 
-    <!-- Fruit Column -->
     <ng-container matColumnDef="Amount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
         <td mat-cell *matCellDef="let row"> {{row.Amount | currency:'USD':'symbol':'1.2-2'}} </td>
