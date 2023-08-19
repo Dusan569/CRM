@@ -34,7 +34,7 @@ export class TableAllTransactionsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fetchDataAndRefresh(); 
-    
+
     interval(5000).pipe(
       takeUntil(this.destroy$),
       switchMap(async () => this.fetchDataAndRefresh())
@@ -65,8 +65,6 @@ export class TableAllTransactionsComponent implements OnInit, OnDestroy {
       this.dataSource.data = updatedList;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.dataSource.data.length);
-      
     });
   }
 
