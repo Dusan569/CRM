@@ -1,4 +1,4 @@
-export interface AccountInfoTokenResponse {
+export interface StoreAccountInfoRes{
     accountToken: string,
     status: {
         ResponseCode: string,

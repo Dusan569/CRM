@@ -1,8 +1,8 @@
-export interface GetAccountInfoRequest{
+export interface GetAccountInfoReq{
     Authentication: {
         ApiKey: string,
         UserName: string,
         Password: string
-        },
-        AccountToken: string
+    },
+    AccountToken:string
 }

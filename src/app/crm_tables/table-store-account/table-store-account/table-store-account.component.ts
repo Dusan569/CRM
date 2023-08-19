@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { TableInterface } from './interfaces/table-acc-interface.interface';
 import { AccountService } from './table-store-account-service.service';
-import { GetAccountInfoResponse } from './store-account-into-interfaces/get-account-info-response.interface';
+import { switchMap } from 'rxjs';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -36,14 +36,15 @@ export class TableStoreAccountComponent {
   routingNumberFormControl = new FormControl('', [Validators.required]);
   accountTypeFormControl = new FormControl('', [Validators.required]);
 
-  matcher = new MyErrorStateMatcher();
-
   accountForm = new FormGroup({
-    "AccountName": this.accountNameFormControl,
-    "accountNumber": this.accountNumberFormControl,
-    "routingNumber": this.routingNumberFormControl,
-    "accountType": this.accountTypeFormControl
+      "AccountName": this.accountNameFormControl,
+      "accountNumber": this.accountNumberFormControl,
+      "routingNumber": this.routingNumberFormControl,
+      "accountType": this.accountTypeFormControl
   });
+
+
+  matcher = new MyErrorStateMatcher();
 
   constructor(private accountService: AccountService){}
 
@@ -54,29 +55,38 @@ export class TableStoreAccountComponent {
     this.accountService.fetchAccountInfoFromFirebase();
 }
 
-  onSubmit(){
-    if(this.accountForm.valid){
+onSubmit() {
+  if (this.accountForm.valid) {
+    this.accountService.storeAccountInfo(this.accountForm).subscribe(res => {
+      console.log(res);
+      
+      this.accountService.getAccountInfo(res.accountToken).subscribe(accInfo => {
+        console.log(accInfo);
+      })
+    });
+
       const account: TableInterface = {
-        AccountName: this.accountForm.value.AccountName as string,
-        AccountNumber: this.accountForm.value.accountNumber as unknown as number,
-        RoutingNumber: this.accountForm.value.routingNumber as unknown as number,
-        AccountType: this.accountForm.value.accountType as unknown as number,
+          AccountName: this.accountForm.value.AccountName as string,
+          AccountNumber: this.accountForm.value.accountNumber as unknown as number,
+          RoutingNumber: this.accountForm.value.routingNumber as unknown as number,
+          AccountType: this.accountForm.value.accountType as unknown as number,
       }
-      this.accountService.storeAccountInfoToAch(this.accountForm).subscribe(
-        accToken => {
-            this.accountService.getAccountInfoFromAch(accToken).subscribe(response => {
-                    console.log("Account Info:", response);
-                },error => {
-                    console.error("Error occurred when fetching account info:", error);
-                }
-            );
-        },error => {
-            console.error("Error occurred when storing account info:", error);
-        });
-        this.accountService.storeAccountInfoToFirebase([account]);
-        this.accountService.updateAccountInfoTable(account);
-    }  
+      this.accountService.storeAccountInfoToFirebase([account]);
+      this.accountService.updateAccountInfoTable(account);
+
+      //-------
+      // this.accountService.storeAccountInfoToAch(this.accountForm)
+      // .pipe(switchMap(accToken => {
+      //     return this.accountService.getAccountInfoFromAch(accToken);
+      // }))
+      // .subscribe(response => {
+      //     console.log("Account Info:", response);
+      // }, error => {
+      //     console.error("Error occurred:", error);
+      // });
   }
+}
+
 
   ngAfterViewInit() {
     this.accountService.accountListObservable$.subscribe(accList => {
@@ -93,5 +103,14 @@ export class TableStoreAccountComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  //Ovo je za input koji je tipa text ali samo mogu da se kucaju brojevi
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
   }
 }

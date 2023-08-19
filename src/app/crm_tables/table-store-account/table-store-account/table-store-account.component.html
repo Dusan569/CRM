@@ -11,21 +11,33 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>Account Number</mat-label>
-        <input type="number" matInput [formControl]="accountNumberFormControl" [errorStateMatcher]="matcher"
+        <input type="text" matInput [formControl]="accountNumberFormControl" [errorStateMatcher]="matcher"
                placeholder="Type account number">
         <mat-hint>Hint</mat-hint>
         <mat-error *ngIf="accountNumberFormControl.hasError('required')">
           Account number is <strong>required</strong>
         </mat-error>
+        <mat-error *ngIf="accountNumberFormControl.hasError('min')">
+          Value should be greater than or equal to 8.
+        </mat-error>
+        <mat-error *ngIf="accountNumberFormControl.hasError('max')">
+          Value should be less than or equal to 17.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-label>Routing Number</mat-label>
-        <input type="number" matInput [formControl]="routingNumberFormControl" [errorStateMatcher]="matcher"
-               placeholder="Type routing number">
+        <input type="text" matInput [formControl]="routingNumberFormControl" [errorStateMatcher]="matcher"
+               placeholder="Type routing number" (keypress)="numberOnly($event)">
         <mat-hint>Hint</mat-hint>
         <mat-error *ngIf="routingNumberFormControl.hasError('required')">
           Routing number is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="routingNumberFormControl.hasError('min')">
+          Value should be greater than or equal to 9.
+        </mat-error>
+        <mat-error *ngIf="routingNumberFormControl.hasError('max')">
+          Value should be less than or equal to 9.
         </mat-error>
       </mat-form-field>
 

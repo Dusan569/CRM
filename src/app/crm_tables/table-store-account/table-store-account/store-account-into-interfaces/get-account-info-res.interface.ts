@@ -1,8 +1,8 @@
-export interface GetAccountInfoResponse{
+export interface GetAccountInfoRes{
     AccountToken: string,
     AccountName: string,
     AccountNumber: string,
-    RoutingNumber: number,
+    RoutingNumber: string,
     AccountType: number,
     status: {
         ResponseCode: string,
