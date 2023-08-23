@@ -27,7 +27,7 @@ export class TableStoreAccountComponent {
   //Table
   showTable = false;
   //Table clumns
-  displayedColumns: string[] = ['AccountName', 'AccountNumber', 'RoutingNumber', 'AccountType', 'AccountToken'];
+  displayedColumns: string[] = ['Merchant Name', 'Status', 'Total Amount', 'Start Date', 'Description'];
   //Table data
   dataSource: MatTableDataSource<TableInterface> = new MatTableDataSource<TableInterface>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -50,38 +50,19 @@ openDialog(){
     panelClass: 'popup'
   });
 
-  dialog.afterClosed().subscribe(result => {
-  if (result) {
-    console.log("COMPONENT");
+  dialog.afterClosed().subscribe(response => {
+  if (response) {
     
-    console.log(result);
+    const account: TableInterface = {
+      MerchantName: response.AccountName,
+      Status: response.Status,
+      TotalAmount: response.TotalAmount,
+      StartDate: response.StartDate,
+      Description: response.EntryDescription
+    }
 
-    // this.accountService.createMCA(result).subscribe(res => {
-
-    //   if (res.ErrorMsg && res.ErrorMsg.trim().length > 0) {
-    //     // Handle the error message here
-    //     this.errorMessage = res.ErrorMsg;
-    //     console.log(res);
-        
-    //   }else{
-    //     console.log("RESPONSE!!!!!!!");
-      
-    //     console.log(res);
-    //   }
-      
-      
-    // });
-    
-
-    // const account: TableInterface = {
-    //   AccountName: result.AccountName as string,
-    //   AccountNumber: result.AccountNumber as string,
-    //   RoutingNumber: result.AccountNumber as string,
-    //   AccountType: result.accountNumber as string
-    // }
-
-    // this.accountService.storeAccountInfoToFirebase([account]);
-    // this.accountService.updateAccountInfoTable(account);
+    this.accountService.storeAccountInfoToFirebase([account]);
+    this.accountService.updateAccountInfoTable(account);
   }
   });
 }

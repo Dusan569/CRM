@@ -1,4 +1,4 @@
-export interface CreateMcaInterface {
+export interface CreateMcaRequestInterface {
     
         Authentication :  {ApiKey : string, UserName : string,Password : string },
             RecurringScheduleRequestObject: 

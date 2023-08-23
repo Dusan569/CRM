@@ -102,9 +102,8 @@ export class PopupComponent {
       this.accService.createMCA(this.accountForm).subscribe(response => {
         if(response.ErrorMsg && response.ErrorMsg.trim().length > 0){
           this.errorMessage = response.ErrorMsg;
-          console.log(response);
         }else{
-          // this.dialogRef.close(this.accountForm);
+          this.dialogRef.close(response);
         }
       })
 

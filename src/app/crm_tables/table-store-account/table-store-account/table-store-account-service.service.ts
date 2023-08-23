@@ -3,7 +3,8 @@ import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } f
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { FormGroup } from "@angular/forms";
 import { TableInterface } from "./interfaces/table-acc-interface.interface";
-import { CreateMcaInterface } from "./interfaces/create-mca-req-interface.interface";
+import { CreateMcaRequestInterface } from "./interfaces/create-mca-req-interface.interface";
+import { CreateMcaResponseInterface } from "./interfaces/create-mca-res-interface.interface";
 
 @Injectable({ providedIn: 'root' })
 export class AccountService{
@@ -50,7 +51,7 @@ export class AccountService{
     
     //ACH PROCESSOR Create Recurring Schedule Page 23
     createMCA(form: FormGroup){
-        let request: CreateMcaInterface = {
+        let request: CreateMcaRequestInterface = {
             Authentication :  {ApiKey : "56b96bda-ebe3-4932-b387-6743fec68e65", UserName : "WLOracle",Password : "Z9f!pKV4QfQJy0rwmEVJ" },
             RecurringScheduleRequestObject: 
          {
@@ -73,6 +74,6 @@ export class AccountService{
         userData:""
         }
             
-        return this.http.post<any>('https://extest.achprocessing.com/Finanyzlrapi/api/recurring/CreateSchedule', request);
+        return this.http.post<CreateMcaResponseInterface>('https://extest.achprocessing.com/Finanyzlrapi/api/recurring/CreateSchedule', request);
     }
 }

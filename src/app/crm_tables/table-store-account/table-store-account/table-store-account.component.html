@@ -14,35 +14,35 @@
 </mat-form-field>
 
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource" matSort >
 
     <!-- ID Column -->
-    <ng-container matColumnDef="AccountName" sticky>
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Name </th>
-        <td mat-cell *matCellDef="let row"> {{row.AccountName}} </td>
+    <ng-container matColumnDef="Merchant Name" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Merchant Name </th>
+        <td mat-cell *matCellDef="let row"> {{row.MerchantName}} </td>
     </ng-container>
 
     <!-- Progress Column -->
-    <ng-container matColumnDef="AccountNumber">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Number </th>
-        <td mat-cell *matCellDef="let row"> {{row.AccountNumber}} </td>
+    <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+        <td mat-cell *matCellDef="let row"> {{row.Status}} </td>
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="RoutingNumber">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Routing Number </th>
-        <td mat-cell *matCellDef="let row"> {{row.RoutingNumber}} </td>
+    <ng-container matColumnDef="Total Amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Amount </th>
+        <td mat-cell *matCellDef="let row"> {{row.TotalAmount}} </td>
     </ng-container>
 
     <!-- Fruit Column -->
-    <ng-container matColumnDef="AccountType">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Type </th>
-        <td mat-cell *matCellDef="let row"> {{row.AccountType == 1 ? "Checking" : "Savings" }} </td>
+    <ng-container matColumnDef="Start Date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+        <td mat-cell *matCellDef="let row"> {{row.StartDate }} </td>
     </ng-container>
 
-    <ng-container matColumnDef="AccountToken">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Token </th>
-      <td mat-cell *matCellDef="let row"> {{row.AccountToken }} </td>
+    <ng-container matColumnDef="Description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+      <td mat-cell *matCellDef="let row"> {{row.Description }} </td>
   </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
