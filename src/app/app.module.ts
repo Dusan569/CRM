@@ -24,7 +24,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSelectModule} from '@angular/material/select';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { PopupComponent } from './crm_tables/table-store-account/table-store-account/popup_mca/popup.component';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -32,7 +35,8 @@ import {MatSelectModule} from '@angular/material/select';
     AppComponent,
     TableAllTransactionsComponent,
     SideNavComponent,
-    TableStoreAccountComponent
+    TableStoreAccountComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,10 @@ import {MatSelectModule} from '@angular/material/select';
     HttpClientModule,
     ReactiveFormsModule,
     MatGridListModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule,
+    MatNativeDateModule,
+    MatDatepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

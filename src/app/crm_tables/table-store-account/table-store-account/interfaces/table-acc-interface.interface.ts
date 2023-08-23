@@ -3,5 +3,5 @@ export interface TableInterface{
     AccountNumber: string,
     RoutingNumber: string,
     AccountType: string,
-    AccountToken: string
+    AccountToken?: string
 }

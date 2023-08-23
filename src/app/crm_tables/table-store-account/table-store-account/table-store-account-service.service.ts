@@ -3,10 +3,6 @@ import { BehaviorSubject, Observable, catchError, map, switchMap } from "rxjs";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { FormGroup } from "@angular/forms";
 import { TableInterface } from "./interfaces/table-acc-interface.interface";
-import { StoreAccountInfoReq } from "./store-account-into-interfaces/store-account-info-req.interface";
-import { StoreAccountInfoRes } from "./store-account-into-interfaces/store-account-into-res.interface";
-import { GetAccountInfoReq } from "./store-account-into-interfaces/get-account-info-rq.interface";
-import { GetAccountInfoRes } from "./store-account-into-interfaces/get-account-info-res.interface";
 
 @Injectable({ providedIn: 'root' })
 export class AccountService{
@@ -49,33 +45,11 @@ export class AccountService{
     });
 }
     
-    //ACH PROCESSOR
-    storeAccountInfo(form: FormGroup){
-        let request: StoreAccountInfoReq = {
-            Authentication: {
-            ApiKey: "56b96bda-ebe3-4932-b387-6743fec68e65",
-            UserName: "WLOracle",
-            Password: "Z9f!pKV4QfQJy0rwmEVJ"},
-            AccountName: form.value.AccountName,
-                accountNumber: form.value.accountNumber,
-                routingNumber: form.value.routingNumber,
-                accountType: form.value.accountType.toString()	
-            }
+    //ACH PROCESSOR Create Recurring Schedule Page 23
+    createMCA(form: FormGroup){
+        let request;
             console.log(request);
             
-        return this.http.post<StoreAccountInfoRes>('https://extest.achprocessing.com/Finanyzlrapi/api/ach/storeAccountInfo', request);
-    }
-
-    getAccountInfo(token: string){
-        let request: GetAccountInfoReq = {
-            Authentication: {
-                ApiKey: "56b96bda-ebe3-4932-b387-6743fec68e65",
-                UserName: "WLOracle",
-                Password: "Z9f!pKV4QfQJy0rwmEVJ"
-            },
-            AccountToken: token
-        }
-
-        return this.http.post<GetAccountInfoRes>('https://extest.achprocessing.com/Finanyzlrapi/api/ach/getAccountInfo', request);
+        return this.http.post('https://extest.achprocessing.com/Finanyzlrapi/api/ach/storeAccountInfo', request);
     }
 }

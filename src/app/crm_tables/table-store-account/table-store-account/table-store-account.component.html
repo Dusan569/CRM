@@ -1,62 +1,8 @@
 <div style="display: flex;flex-direction: column; align-items: center; justify-content: center;">
-  <form class="example-form" [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-    <mat-form-field class="example-full-width">
-        <mat-label>Account Name</mat-label>
-        <input type="text" matInput [formControl]="accountNameFormControl" [errorStateMatcher]="matcher"
-               placeholder="Type name">
-        <mat-hint>Hint</mat-hint>
-        <mat-error *ngIf="accountNameFormControl.hasError('required')">
-          Account name is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
 
-      <mat-form-field class="example-full-width">
-        <mat-label>Account Number</mat-label>
-        <input type="text" matInput [formControl]="accountNumberFormControl" [errorStateMatcher]="matcher"
-               placeholder="Type account number">
-        <mat-hint>Hint</mat-hint>
-        <mat-error *ngIf="accountNumberFormControl.hasError('required')">
-          Account number is <strong>required</strong>
-        </mat-error>
-        <mat-error *ngIf="accountNumberFormControl.hasError('min')">
-          Value should be greater than or equal to 8.
-        </mat-error>
-        <mat-error *ngIf="accountNumberFormControl.hasError('max')">
-          Value should be less than or equal to 17.
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="example-full-width">
-        <mat-label>Routing Number</mat-label>
-        <input type="text" matInput [formControl]="routingNumberFormControl" [errorStateMatcher]="matcher"
-               placeholder="Type routing number" (keypress)="numberOnly($event)">
-        <mat-hint>Hint</mat-hint>
-        <mat-error *ngIf="routingNumberFormControl.hasError('required')">
-          Routing number is <strong>required</strong>
-        </mat-error>
-        <mat-error *ngIf="routingNumberFormControl.hasError('min')">
-          Value should be greater than or equal to 9.
-        </mat-error>
-        <mat-error *ngIf="routingNumberFormControl.hasError('max')">
-          Value should be less than or equal to 9.
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="example-full-width">
-        <mat-label>Select account type</mat-label>
-        <mat-select [formControl]="accountTypeFormControl" [errorStateMatcher]="matcher">
-            <mat-option value="1">Checking</mat-option>
-            <mat-option value="2">Savings</mat-option>
-        </mat-select>
-        <mat-hint>Hint</mat-hint>
-        <mat-error *ngIf="accountTypeFormControl.hasError('required')">
-          Account type is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-
-      <button mat-raised-button type="submit" color="primary">Submit</button>
-</form>
-  
+<mat-dialog-actions>
+  <button mat-raised-button (click)="openDialog()" color="primary">Dialog</button>
+</mat-dialog-actions>
 
 <mat-form-field *ngIf="showTable">
     <mat-label>Search</mat-label>
