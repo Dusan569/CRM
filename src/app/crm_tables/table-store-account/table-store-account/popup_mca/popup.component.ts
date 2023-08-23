@@ -31,12 +31,12 @@ export class PopupComponent {
 
   occursFormControl = new FormControl('', [Validators.required]);
   recursFormControl = new FormControl('', [Validators.required]);
-  startDateFormControl = new FormControl('', [Validators.required]);
+  startDateFormControl = new FormControl('', );
   entryDescriptionFormControl = new FormControl('', [Validators.required]);
 
-  amountFormControl = new FormControl('');
-numberOfPaymentFormControl = new FormControl('');
-totalAmountFormControl = new FormControl('');
+  amountFormControl = new FormControl('',[Validators.required]);
+  numberOfPaymentFormControl = new FormControl('',[Validators.required]);
+  totalAmountFormControl = new FormControl('');
 
 
   accountForm = new FormGroup({
@@ -55,23 +55,45 @@ totalAmountFormControl = new FormControl('');
       "Amount": this.amountFormControl,
       "PaymentCount": this.numberOfPaymentFormControl,
       "TotalAmount": this.totalAmountFormControl
-  }, { validators: PopupComponent.amountValidator });
+  });
   matcher = new MyErrorStateMatcher();
 
   constructor(private dialogRef: MatDialogRef<PopupComponent>){}
 
   onSubmit(){
-    console.log('Amount Error:', this.amountFormControl.errors);
-    console.log('PaymentCount Error:', this.numberOfPaymentFormControl.errors);
-    console.log('TotalAmount Error:', this.totalAmountFormControl.errors);
+    const amount = this.amountFormControl.value;
+    const paymentCount = this.numberOfPaymentFormControl.value;
+    const totalAmount = this.totalAmountFormControl.value;
 
-    console.log(this.accountForm.errors);
-    if (this.accountForm.valid) {
-      this.dialogRef.close(this.accountForm.value);
-      this.resetForm();
-      
+    // Reset errors
+    this.amountFormControl.setErrors(null);
+    this.numberOfPaymentFormControl.setErrors(null);
+    this.totalAmountFormControl.setErrors(null);
+
+    if (amount && paymentCount) {
+        // If "Amount" and "Number of Payments" are filled, "Total Amount" should be empty
+        if (totalAmount) {
+            this.totalAmountFormControl.setErrors({ 'conflict': true });
+        }
+    } else if (totalAmount) {
+        // If "Total Amount" is filled, "Amount" and "Number of Payments" should be empty
+        if (amount || paymentCount) {
+            this.amountFormControl.setErrors({ 'conflict': true });
+            this.numberOfPaymentFormControl.setErrors({ 'conflict': true });
+        }
+    } else {
+        // If none of the above scenarios, then all three fields are required
+        this.amountFormControl.setErrors({ 'required': true });
+        this.numberOfPaymentFormControl.setErrors({ 'required': true });
+        this.totalAmountFormControl.setErrors({ 'required': true });
     }
-  }
+
+    if (this.accountForm.valid) {
+        this.dialogRef.close(this.accountForm.value);
+        this.resetForm();
+    }
+}
+
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -98,32 +120,4 @@ totalAmountFormControl = new FormControl('');
   close() {
     this.dialogRef.close();
   }
-
-  static amountValidator(control: AbstractControl): { [key: string]: any } | null {
-    const group = control as FormGroup;
-    const amount = group.controls['Amount'].value;
-    const paymentCount = group.controls['PaymentCount'].value;
-    const totalAmount = group.controls['TotalAmount'].value;
-
-    
-  
-    // If all fields are empty
-    if (!amount && !paymentCount && !totalAmount) {
-      return { requiredFields: true };
-    }
-  
-    // If TotalAmount is set along with either Amount or PaymentCount
-    if (totalAmount && (amount || paymentCount)) {
-      return { conflictingFields: true };
-    }
-  
-    // If only one of Amount or PaymentCount is set without TotalAmount
-    if ((amount || paymentCount) && !totalAmount && !(amount && paymentCount)) {
-      return { incompleteFields: true };
-    }
-  
-    return null;
-  }
-  
-
 }
