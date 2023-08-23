@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { format } from 'date-fns';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -89,16 +90,18 @@ export class PopupComponent {
     }
 
     if (this.accountForm.valid) {
-      const formValue = { ...this.accountForm.value };  // Create a copy of the form value
+      // const formValue = { ...this.accountForm.value };  // Create a copy of the form value
 
-      if (formValue.StartDate) {
-          const dateValue = new Date(formValue.StartDate);
-          const formattedDate = `${('0' + (dateValue.getMonth() + 1)).slice(-2)}/${('0' + dateValue.getDate()).slice(-2)}/${dateValue.getFullYear()}`;
-          formValue.StartDate = formattedDate;
+      if (this.accountForm.value.StartDate) {
+        const dateValue = new Date(this.accountForm.value.StartDate);
+        this.accountForm.value.StartDate = format(dateValue, 'MM/dd/yyyy');
       }
+      console.log("POPUP");
+      
+      console.log(this.accountForm);
+      
 
-      this.dialogRef.close(formValue);
-      this.resetForm();
+      this.dialogRef.close(this.accountForm);
   }
 }
 

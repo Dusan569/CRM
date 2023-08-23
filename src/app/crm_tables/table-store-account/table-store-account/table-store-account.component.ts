@@ -51,13 +51,21 @@ openDialog(){
 
   dialog.afterClosed().subscribe(result => {
   if (result) {
+    console.log("COMPONENT");
+    
     console.log(result);
+
+    // this.accountService.createMCA(result).subscribe(res => {
+    //   console.log("RESPONE!!!!!!!");
+      
+    //   console.log(res);
+    // });
     
 
     // const account: TableInterface = {
     //   AccountName: result.AccountName as string,
-    //   AccountNumber: result.accountNumber as string,
-    //   RoutingNumber: result.accountNumber as string,
+    //   AccountNumber: result.AccountNumber as string,
+    //   RoutingNumber: result.AccountNumber as string,
     //   AccountType: result.accountNumber as string
     // }
 
