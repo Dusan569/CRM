@@ -27,7 +27,7 @@ export class TableStoreAccountComponent {
   //Table
   showTable = false;
   //Table clumns
-  displayedColumns: string[] = ['Merchant Name', 'Status', 'Total Amount', 'Start Date', 'Description'];
+  displayedColumns: string[] = ['ID','Merchant Name', 'Status', 'Total Amount', 'Start Date','End Date', 'Description'];
   //Table data
   dataSource: MatTableDataSource<TableInterface> = new MatTableDataSource<TableInterface>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -51,20 +51,32 @@ openDialog(){
   });
 
   dialog.afterClosed().subscribe(response => {
-  if (response) {
-    
-    const account: TableInterface = {
-      MerchantName: response.AccountName,
-      Status: response.Status,
-      TotalAmount: response.TotalAmount,
-      StartDate: response.StartDate,
-      Description: response.EntryDescription
-    }
+    if (response) {
+      let id: string;
+        if(response.AccountNumber.length < 8){
+          id = response.AccountNumber.slice(-3);
+        }else{
+          id = response.AccountNumber.slice(-4);
+        }
+        const endDate = response.PaymentList && response.PaymentList.length 
+                        ? response.PaymentList[response.PaymentList.length - 1].PaymentDate 
+                        : '';
 
-    this.accountService.storeAccountInfoToFirebase([account]);
-    this.accountService.updateAccountInfoTable(account);
-  }
-  });
+        const account: TableInterface = {
+            ID: id,
+            MerchantName: response.AccountName,
+            Status: response.Status,
+            TotalAmount: response.TotalAmount,
+            StartDate: response.StartDate,
+            EndDate: endDate,  // Add this line
+            Description: response.EntryDescription
+        };
+        console.log(response);
+        
+
+        this.accountService.storeAccountInfoToFirebase(account);
+    }
+});
 }
 
   ngAfterViewInit() {

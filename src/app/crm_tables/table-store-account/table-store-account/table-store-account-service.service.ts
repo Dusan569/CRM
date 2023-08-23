@@ -24,30 +24,26 @@ export class AccountService{
     }
 
     //firebse
-    storeAccountInfoToFirebase(info: TableInterface[]){
-        // Fetch the current list
-        this.http.get<TableInterface[]>('https://crm-app-e2838-default-rtdb.firebaseio.com/acc.json')
-        .subscribe(currentData => {
-            // Append the new data to the current list
-            const updatedData = currentData ? [...currentData, ...info] : [...info];
-    
-            // Save the updated list to Firebase
-            this.http.put('https://crm-app-e2838-default-rtdb.firebaseio.com/acc.json', updatedData)
-            .subscribe(response => {
-                console.log("Ovo je cuvanje na firebase");
-                
-                console.log(response);
-            });
+    storeAccountInfoToFirebase(info: TableInterface) {
+        this.http.post('https://crm-app-e2838-default-rtdb.firebaseio.com/acc.json', info)
+        .subscribe(response => {
+            console.log("Data stored to Firebase");
+            
+            // Update the local data
+            this.accounts.push(info);
+            this.accountListSubject.next(this.accounts);  // Notify subscribers of the change
         });
     }
-
     fetchAccountInfoFromFirebase(): void {
-    this.http.get<TableInterface[]>('https://crm-app-e2838-default-rtdb.firebaseio.com/acc.json')
-    .subscribe(response => {
-        this.accounts = response ? response : [];
-        this.accountListSubject.next(this.accounts);  // Notify subscribers of the change
-    });
-}
+        this.http.get<{ [key: string]: TableInterface }>('https://crm-app-e2838-default-rtdb.firebaseio.com/acc.json')
+        .subscribe(response => {
+            
+            this.accounts = Object.values(response);
+            this.accountListSubject.next(this.accounts);  // Notify subscribers of the change
+        });
+    }
+    
+    
     
     //ACH PROCESSOR Create Recurring Schedule Page 23
     createMCA(form: FormGroup){
