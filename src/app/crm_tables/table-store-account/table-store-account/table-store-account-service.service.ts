@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, catchError, map, switchMap } from "rxjs";
+import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } from "rxjs";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { FormGroup } from "@angular/forms";
 import { TableInterface } from "./interfaces/table-acc-interface.interface";
@@ -7,6 +7,8 @@ import { CreateMcaInterface } from "./interfaces/create-mca-req-interface.interf
 
 @Injectable({ providedIn: 'root' })
 export class AccountService{
+
+    errorMessage!:string;
 
     public accounts: TableInterface[] = [];
     

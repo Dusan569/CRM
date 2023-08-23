@@ -20,4 +20,5 @@ export interface CreateMcaInterface {
                 TotalAmount:string
             },
         userData:string
+    
 }

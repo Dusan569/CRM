@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { format } from 'date-fns';
+import { AccountService } from '../table-store-account-service.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -18,6 +19,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 
 export class PopupComponent {
+  errorMessage: string = '';
 
   //Transaction Group Data
   scheduleNameFormControl = new FormControl('', Validators.required);
@@ -59,7 +61,7 @@ export class PopupComponent {
   });
   matcher = new MyErrorStateMatcher();
 
-  constructor(private dialogRef: MatDialogRef<PopupComponent>){}
+  constructor(private dialogRef: MatDialogRef<PopupComponent>, private accService: AccountService){}
 
   onSubmit(){
     const amount = this.amountFormControl.value;
@@ -95,13 +97,18 @@ export class PopupComponent {
       if (this.accountForm.value.StartDate) {
         const dateValue = new Date(this.accountForm.value.StartDate);
         this.accountForm.value.StartDate = format(dateValue, 'MM/dd/yyyy');
-      }
-      console.log("POPUP");
-      
-      console.log(this.accountForm);
-      
+      };
 
-      this.dialogRef.close(this.accountForm);
+      this.accService.createMCA(this.accountForm).subscribe(response => {
+        if(response.ErrorMsg && response.ErrorMsg.trim().length > 0){
+          this.errorMessage = response.ErrorMsg;
+          console.log(response);
+        }else{
+          // this.dialogRef.close(this.accountForm);
+        }
+      })
+
+      
   }
 }
 

@@ -1,4 +1,7 @@
 <form class="example-form" [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+    <div *ngIf="errorMessage" style="color: red;">
+      {{errorMessage}}
+    </div>
     <h3 style="color: #ebebeb;">CREATE MCA</h3>
     <mat-form-field class="example-full-width">
         <mat-label>Schedule Name</mat-label>
@@ -23,7 +26,7 @@
       <mat-form-field class="example-full-width">
         <mat-label>SEC Code</mat-label>
         <mat-select [formControl]="secCodeFormControl" [errorStateMatcher]="matcher">
-            <mat-option value="CCP">CCP</mat-option>
+            <mat-option value="CCD">CCD</mat-option>
             <mat-option value="PPD">PPD</mat-option>
         </mat-select>
         <mat-hint>SEC Code</mat-hint>

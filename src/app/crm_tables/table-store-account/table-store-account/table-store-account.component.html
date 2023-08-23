@@ -1,5 +1,9 @@
 <div style="display: flex;flex-direction: column; align-items: center; justify-content: center;">
 
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
 <mat-dialog-actions>
   <button mat-raised-button (click)="openDialog()" color="primary">Dialog</button>
 </mat-dialog-actions>

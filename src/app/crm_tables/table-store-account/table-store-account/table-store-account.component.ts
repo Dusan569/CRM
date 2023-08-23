@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { TableInterface } from './interfaces/table-acc-interface.interface';
 import { AccountService } from './table-store-account-service.service';
-import { switchMap } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { PopupComponent } from 'src/app/crm_tables/table-store-account/table-store-account/popup_mca/popup.component';
 
@@ -23,6 +23,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./table-store-account.component.css'],
 })
 export class TableStoreAccountComponent {
+  errorMessage: string = '';
   //Table
   showTable = false;
   //Table clumns
@@ -56,9 +57,19 @@ openDialog(){
     console.log(result);
 
     // this.accountService.createMCA(result).subscribe(res => {
-    //   console.log("RESPONE!!!!!!!");
+
+    //   if (res.ErrorMsg && res.ErrorMsg.trim().length > 0) {
+    //     // Handle the error message here
+    //     this.errorMessage = res.ErrorMsg;
+    //     console.log(res);
+        
+    //   }else{
+    //     console.log("RESPONSE!!!!!!!");
       
-    //   console.log(res);
+    //     console.log(res);
+    //   }
+      
+      
     // });
     
 
