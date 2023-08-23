@@ -8,6 +8,9 @@
     margin: 2px 10px;
     width: 250px;
   }
+  mat-hint{
+    color: #B6B6B6;
+  }
   
   
   

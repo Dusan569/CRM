@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -8,7 +8,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   } 
-}
+};
 
 @Component({
   selector: 'app-popup',
@@ -31,7 +31,7 @@ export class PopupComponent {
 
   occursFormControl = new FormControl('', [Validators.required]);
   recursFormControl = new FormControl('', [Validators.required]);
-  startDateFormControl = new FormControl('', );
+  startDateFormControl = new FormControl('', [Validators.required]);
   entryDescriptionFormControl = new FormControl('', [Validators.required]);
 
   amountFormControl = new FormControl('',[Validators.required]);
@@ -89,9 +89,17 @@ export class PopupComponent {
     }
 
     if (this.accountForm.valid) {
-        this.dialogRef.close(this.accountForm.value);
-        this.resetForm();
-    }
+      const formValue = { ...this.accountForm.value };  // Create a copy of the form value
+
+      if (formValue.StartDate) {
+          const dateValue = new Date(formValue.StartDate);
+          const formattedDate = `${('0' + (dateValue.getMonth() + 1)).slice(-2)}/${('0' + dateValue.getDate()).slice(-2)}/${dateValue.getFullYear()}`;
+          formValue.StartDate = formattedDate;
+      }
+
+      this.dialogRef.close(formValue);
+      this.resetForm();
+  }
 }
 
 
@@ -106,7 +114,7 @@ export class PopupComponent {
   resetForm() {
     this.accountForm.reset();
   
-    // Mark all controls as untouched and pristine to remove validation errors
+    // Remove all the validators
     Object.keys(this.accountForm.controls).forEach(key => {
       const control = this.accountForm.get(key);
       if (control) {

@@ -44,7 +44,7 @@ export class TableStoreAccountComponent {
 openDialog(){
   let dialog = this.matDialog.open(PopupComponent,{
     width: '950px',
-    height: '800px',
+    height: '600px',
     disableClose: true,
     panelClass: 'popup'
   });
