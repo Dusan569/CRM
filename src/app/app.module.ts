@@ -30,6 +30,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { McaInfoComponent } from './crm_tables/table-store-account/table-store-account/mca-info/mca-info.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     TableAllTransactionsComponent,
     SideNavComponent,
     TableStoreAccountComponent,
-    PopupComponent
+    PopupComponent,
+    McaInfoComponent
   ],
   imports: [
     BrowserModule,

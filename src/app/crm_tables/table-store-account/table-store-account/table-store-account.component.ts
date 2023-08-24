@@ -9,6 +9,7 @@ import { AccountService } from './table-store-account-service.service';
 import { filter, map, switchMap } from 'rxjs';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { PopupComponent } from 'src/app/crm_tables/table-store-account/table-store-account/popup_mca/popup.component';
+import { Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -33,7 +34,7 @@ export class TableStoreAccountComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private accountService: AccountService, private matDialog: MatDialog){}
+  constructor(private accountService: AccountService, private matDialog: MatDialog, private router: Router){}
 
   ngOnInit(){
     this.accountService.accountListObservable$.subscribe(data => {
@@ -96,8 +97,11 @@ openDialog(){
   }
 
   showDetails(secId: string){
-    console.log("SCHEDULE ID");
+    this.accountService.scheduleIdSubject.next(secId);
     
+    console.log("SCHEDULE ID");
     console.log(secId);
+
+    this.router.navigate(['mca-info'])
   }
 }

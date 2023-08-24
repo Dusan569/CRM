@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } from "rxjs";
+import { BehaviorSubject, Observable, Subject, catchError, map, switchMap, throwError } from "rxjs";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { FormGroup } from "@angular/forms";
 import { TableInterface } from "./interfaces/table-acc-interface.interface";
@@ -15,6 +15,11 @@ export class AccountService{
     
     private accountListSubject = new BehaviorSubject<TableInterface[]>([]);
     accountListObservable$: Observable<TableInterface[]> = this.accountListSubject.asObservable();
+
+    scheduleIdSubject = new BehaviorSubject<string>('');
+    scheduleIdObservable$: Observable<string> = this.scheduleIdSubject.asObservable();
+
+
 
     constructor(private http: HttpClient){}
 
@@ -37,7 +42,7 @@ export class AccountService{
     fetchAccountInfoFromFirebase(): void {
         this.http.get<{ [key: string]: TableInterface }>('https://crm-app-e2838-default-rtdb.firebaseio.com/acc.json')
         .subscribe(response => {
-            
+
             this.accounts = Object.values(response);
             this.accountListSubject.next(this.accounts);  // Notify subscribers of the change
         });
