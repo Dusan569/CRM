@@ -7,11 +7,10 @@
     width: 30%;
   }
   .mat-elevation-z8{
-    margin-top: 20px;
     min-height: 200px;
     max-height: 655px;
 
-    min-width: 800px;
+    min-width: 300px;
     max-width: 1000px;
 
     overflow: auto;
@@ -22,8 +21,14 @@
   .mat-elevation-z8 td{
     text-align: center;
     border-right: 1px solid #595959;
+    height: 50px;
   }
   
   .example-full-width {
     width: 100%;
+  }
+  .button-info{
+    width: 40px; 
+    height: 40px; 
+    background-color: #0F68ED;
   }

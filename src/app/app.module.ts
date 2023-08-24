@@ -28,6 +28,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PopupComponent } from './crm_tables/table-store-account/table-store-account/popup_mca/popup.component';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -59,7 +61,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatSelectModule,
     MatDialogModule,
     MatNativeDateModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

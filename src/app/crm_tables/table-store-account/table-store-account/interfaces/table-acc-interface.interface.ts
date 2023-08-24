@@ -6,4 +6,5 @@ export interface TableInterface {
     StartDate: string;
     EndDate: string;  // Add this property
     Description: string;
+    ScheduleId: string;
 }

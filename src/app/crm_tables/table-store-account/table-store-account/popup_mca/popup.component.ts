@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { format } from 'date-fns';
 import { AccountService } from '../table-store-account-service.service';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarRef, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -19,7 +20,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 
 export class PopupComponent {
-  errorMessage: string = '';
+
+  horizontalP:MatSnackBarHorizontalPosition = 'center';
+  verticalP:MatSnackBarVerticalPosition = 'top';
+
+  isLoading: boolean = false;
 
   //Transaction Group Data
   scheduleNameFormControl = new FormControl('', Validators.required);
@@ -37,9 +42,9 @@ export class PopupComponent {
   startDateFormControl = new FormControl('', [Validators.required]);
   entryDescriptionFormControl = new FormControl('', [Validators.required]);
 
-  amountFormControl = new FormControl('',[Validators.required]);
+  amountFormControl = new FormControl('',[Validators.required,Validators.pattern("^[0-9]+(\.[0-9]{1,2})?$")]);
   numberOfPaymentFormControl = new FormControl('',[Validators.required]);
-  totalAmountFormControl = new FormControl('');
+  totalAmountFormControl = new FormControl('',[Validators.pattern("^[0-9]+(\.[0-9]{1,2})?$")]);
 
 
   accountForm = new FormGroup({
@@ -61,9 +66,10 @@ export class PopupComponent {
   });
   matcher = new MyErrorStateMatcher();
 
-  constructor(private dialogRef: MatDialogRef<PopupComponent>, private accService: AccountService){}
+  constructor(private dialogRef: MatDialogRef<PopupComponent>, private accService: AccountService, private snackBar:MatSnackBar){}
 
   onSubmit(){
+    this.isLoading = true;
     const amount = this.amountFormControl.value;
     const paymentCount = this.numberOfPaymentFormControl.value;
     const totalAmount = this.totalAmountFormControl.value;
@@ -77,18 +83,20 @@ export class PopupComponent {
         // If "Amount" and "Number of Payments" are filled, "Total Amount" should be empty
         if (totalAmount) {
             this.totalAmountFormControl.setErrors({ 'conflict': true });
+            this.isLoading = false;
         }
-    } else if (totalAmount) {
-        // If "Total Amount" is filled, "Amount" and "Number of Payments" should be empty
-        if (amount || paymentCount) {
+    } else if (totalAmount && paymentCount) {
+        // If "Total Amount" is filled, "Amount" should be empty
+        if (amount) {
             this.amountFormControl.setErrors({ 'conflict': true });
-            this.numberOfPaymentFormControl.setErrors({ 'conflict': true });
+            this.isLoading = false;
         }
-    } else {
+    }else {
         // If none of the above scenarios, then all three fields are required
         this.amountFormControl.setErrors({ 'required': true });
         this.numberOfPaymentFormControl.setErrors({ 'required': true });
         this.totalAmountFormControl.setErrors({ 'required': true });
+        this.isLoading = false;
     }
 
     if (this.accountForm.valid) {
@@ -101,8 +109,20 @@ export class PopupComponent {
 
       this.accService.createMCA(this.accountForm).subscribe(response => {
         if(response.ErrorMsg && response.ErrorMsg.trim().length > 0){
-          this.errorMessage = response.ErrorMsg;
+          this.isLoading = false;
+
+          //snack bar
+          let snackBarRef = this.snackBar.open(`${response.ErrorMsg} ‼`, 'Close', {
+            duration: 10000,
+            horizontalPosition: this.horizontalP,
+            verticalPosition: this.verticalP,
+          });
+          snackBarRef.onAction().subscribe(() => {
+            snackBarRef.dismiss();
+          });
+        
         }else{
+          this.isLoading = false;
           this.dialogRef.close(response);
         }
       })
@@ -111,7 +131,6 @@ export class PopupComponent {
   }
 }
 
-
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -119,6 +138,15 @@ export class PopupComponent {
     }
     return true;
   }
+
+  numberForAmountOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
 
   resetForm() {
     this.accountForm.reset();

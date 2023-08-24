@@ -23,6 +23,7 @@ export class TableAllTransactionsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['AccountNumber', 'AccountName', 'UserData', 'Amount'];
   dataSource: MatTableDataSource<TransactionInfo> = new MatTableDataSource<TransactionInfo>();
   destroy$: Subject<void> = new Subject<void>();
+  isLoading: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -45,6 +46,9 @@ export class TableAllTransactionsComponent implements OnInit, OnDestroy {
     return this.transactionData.getTransactions().pipe(
       takeUntil(this.destroy$)
     ).subscribe(response => {
+
+      this.isLoading = true;
+
       console.log(response);
       
       const transactionInfoList: TransactionInfo[] = response.EntryDetail
@@ -65,6 +69,7 @@ export class TableAllTransactionsComponent implements OnInit, OnDestroy {
       this.dataSource.data = updatedList;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.isLoading = false;
     });
   }
 

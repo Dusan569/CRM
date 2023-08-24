@@ -27,7 +27,7 @@ export class TableStoreAccountComponent {
   //Table
   showTable = false;
   //Table clumns
-  displayedColumns: string[] = ['ID','Merchant Name', 'Status', 'Total Amount', 'Start Date','End Date', 'Description'];
+  displayedColumns: string[] = ['ID','Merchant Name', 'Status', 'Total Amount', 'Start Date','End Date', 'Description', 'Detail'];
   //Table data
   dataSource: MatTableDataSource<TableInterface> = new MatTableDataSource<TableInterface>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -59,8 +59,7 @@ openDialog(){
           id = response.AccountNumber.slice(-4);
         }
         const endDate = response.PaymentList && response.PaymentList.length 
-                        ? response.PaymentList[response.PaymentList.length - 1].PaymentDate 
-                        : '';
+                        ? response.PaymentList[response.PaymentList.length - 1].PaymentDate : '';
 
         const account: TableInterface = {
             ID: id,
@@ -68,12 +67,12 @@ openDialog(){
             Status: response.Status,
             TotalAmount: response.TotalAmount,
             StartDate: response.StartDate,
-            EndDate: endDate,  // Add this line
-            Description: response.EntryDescription
+            EndDate: endDate,
+            Description: response.EntryDescription,
+            ScheduleId: response.ScheduleId
         };
         console.log(response);
         
-
         this.accountService.storeAccountInfoToFirebase(account);
     }
 });
@@ -94,5 +93,11 @@ openDialog(){
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  showDetails(secId: string){
+    console.log("SCHEDULE ID");
+    
+    console.log(secId);
   }
 }

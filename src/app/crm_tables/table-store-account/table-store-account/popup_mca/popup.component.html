@@ -1,7 +1,8 @@
-<form class="example-form" [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-    <div *ngIf="errorMessage" style="color: red;">
-      {{errorMessage}}
-    </div>
+<div class="loading" *ngIf="isLoading">
+  <mat-spinner diameter="120" color="warn"></mat-spinner>
+</div>
+
+<form class="example-form" [formGroup]="accountForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
     <h3 style="color: #ebebeb;">CREATE MCA</h3>
     <mat-form-field class="example-full-width">
         <mat-label>Schedule Name</mat-label>
@@ -149,12 +150,14 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>Amount</mat-label>
-        <input type="" matInput [formControl]="amountFormControl" [errorStateMatcher]="matcher" placeholder="Amount" (keypress)="numberOnly($event)">
+        <input type="" matInput [formControl]="amountFormControl" [errorStateMatcher]="matcher" placeholder="Amount" (keypress)="numberForAmountOnly($event)">
         <mat-hint>Amount</mat-hint> 
         <mat-error *ngIf="amountFormControl.hasError('required') || amountFormControl.hasError('conflict')">
           Amount is required if Total Amount is not provided.
-      </mat-error>
-                  
+        </mat-error>
+        <mat-error *ngIf="amountFormControl.hasError('pattern')">
+          Please enter a valid amount.
+        </mat-error>      
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
@@ -162,26 +165,25 @@
         <input type="text" matInput [formControl]="numberOfPaymentFormControl" [errorStateMatcher]="matcher" placeholder="Number of Payment" (keypress)="numberOnly($event)">
         <mat-hint>Number of Payment</mat-hint>     
         <mat-error *ngIf="numberOfPaymentFormControl.hasError('required') || numberOfPaymentFormControl.hasError('conflict')">
-          Number of Payments is required if Total Amount is not provided.
+          Number of Payments is required if Total Amount or Amount are not provided.
       </mat-error>
-      
-         
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-label>Total Amount</mat-label>
-        <input type="text" matInput [formControl]="totalAmountFormControl" [errorStateMatcher]="matcher" placeholder="Total Amount" (keypress)="numberOnly($event)">
+        <input type="text" matInput [formControl]="totalAmountFormControl" [errorStateMatcher]="matcher" placeholder="Total Amount" (keypress)="numberForAmountOnly($event)">
         <mat-hint>Total Amount</mat-hint>
         <mat-error *ngIf="totalAmountFormControl.hasError('required') || totalAmountFormControl.hasError('conflict')">
-          Total Amount is required if neither Amount nor Number of Payments are provided.
-      </mat-error>
-      
-                    
+          Total Amount is required if Amount is empty.
+        </mat-error>
+        <mat-error *ngIf="totalAmountFormControl.hasError('pattern')">
+          Please enter a valid total amount.
+        </mat-error>        
       </mat-form-field>
     
       <div style="margin-top: 20px;">
         <button mat-raised-button type="submit" style="background-color: #49AF41; margin-right: 15px;">Submit</button>
         <button mat-raised-button (click)="close()" style="background-color: #b01313;">Close</button>
+        
       </div>
-      
 </form>

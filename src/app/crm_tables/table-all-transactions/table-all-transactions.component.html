@@ -3,9 +3,10 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
   </mat-form-field>
 <div class="mat-elevation-z8">
+    <mat-spinner *ngIf="isLoading" diameter="50" color="warn"></mat-spinner>
     <table mat-table [dataSource]="dataSource" matSort>
 
-    <ng-container matColumnDef="AccountNumber" sticky>
+    <ng-container matColumnDef="AccountNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> AccountNumber </th>
         <td mat-cell *matCellDef="let row"> {{row.AccountNumber}} </td>
     </ng-container>
