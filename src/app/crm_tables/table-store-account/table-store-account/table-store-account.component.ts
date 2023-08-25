@@ -97,6 +97,7 @@ openDialog(){
   }
 
   showDetails(secId: string){
+    //This changed
     // this.accountService.scheduleIdSubject.next(secId);
     
     // console.log("SCHEDULE ID");
