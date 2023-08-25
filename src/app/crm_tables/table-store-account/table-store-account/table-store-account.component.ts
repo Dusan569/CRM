@@ -97,10 +97,10 @@ openDialog(){
   }
 
   showDetails(secId: string){
-    this.accountService.scheduleIdSubject.next(secId);
+    // this.accountService.scheduleIdSubject.next(secId);
     
-    console.log("SCHEDULE ID");
-    console.log(secId);
+    // console.log("SCHEDULE ID");
+    // console.log(secId);
 
     // this.router.navigate(['mca-info'])
   }
