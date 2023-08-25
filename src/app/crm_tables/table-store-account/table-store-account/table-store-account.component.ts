@@ -97,7 +97,7 @@ openDialog(){
   }
 
   showDetails(secId: string){
-    
+    //Test git
     this.accountService.scheduleIdSubject.next(secId);
     
     console.log("SCHEDULE ID");
