@@ -1,0 +1,189 @@
+<div class="loading" *ngIf="isLoading">
+  <mat-spinner diameter="120" color="warn"></mat-spinner>
+</div>
+
+<form class="example-form" [formGroup]="accountForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+    <h3 style="color: #ebebeb;">CREATE MCA</h3>
+    <mat-form-field class="example-full-width">
+        <mat-label>Schedule Name</mat-label>
+        <input type="text" matInput [formControl]="scheduleNameFormControl" [errorStateMatcher]="matcher"
+               placeholder="Schedule Name">
+        <mat-hint>Schedule name</mat-hint>
+        <mat-error *ngIf="scheduleNameFormControl.hasError('required')">
+          Schedule name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Schedule Description</mat-label>
+        <input type="text" matInput [formControl]="scheduleDescriptionFormControl" [errorStateMatcher]="matcher"
+               placeholder="Schedule description">
+        <mat-hint>Schedule description</mat-hint>
+        <mat-error *ngIf="scheduleDescriptionFormControl.hasError('required')">
+          Schedule description is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>SEC Code</mat-label>
+        <mat-select [formControl]="secCodeFormControl" [errorStateMatcher]="matcher">
+            <mat-option value="CCD">CCD</mat-option>
+            <mat-option value="PPD">PPD</mat-option>
+        </mat-select>
+        <mat-hint>SEC Code</mat-hint>
+        <mat-error *ngIf="secCodeFormControl.hasError('required')">
+          SEC Code is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Action Type</mat-label>
+        <mat-select [formControl]="actionTypeFormControl" [errorStateMatcher]="matcher">
+            <mat-option value="Credit">Credit</mat-option>
+            <mat-option value="Debit">Debit</mat-option>
+        </mat-select>
+        <mat-hint>Action Type</mat-hint>
+        <mat-error *ngIf="actionTypeFormControl.hasError('required')">
+          Action Type is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Account Name</mat-label>
+        <input type="text" matInput [formControl]="accountNameFormControl" [errorStateMatcher]="matcher"
+               placeholder="Account name">
+        <mat-hint>Account Name</mat-hint>
+        <mat-error *ngIf="accountNameFormControl.hasError('required')">
+          Account name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Account Number</mat-label>
+        <input type="text" matInput [formControl]="accountNumberFormControl" [errorStateMatcher]="matcher"
+               placeholder="Account number">
+        <mat-hint>Account Number</mat-hint>
+        <mat-error *ngIf="accountNumberFormControl.hasError('required')">
+          Account number is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Routing Number</mat-label>
+        <input type="text" matInput [formControl]="routingNumberFormControl" [errorStateMatcher]="matcher"
+               placeholder="Routing number" (keypress)="numberOnly($event)">
+        <mat-hint>Routing Number</mat-hint>
+        <mat-error *ngIf="routingNumberFormControl.hasError('required')">
+          Routing number is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Account Type</mat-label>
+        <mat-select [formControl]="accountTypeFormControl" [errorStateMatcher]="matcher">
+            <mat-option value="Checking">Checking</mat-option>
+            <mat-option value="Savings">Savings</mat-option>
+        </mat-select>
+        <mat-hint>Account Type</mat-hint>
+        <mat-error *ngIf="accountTypeFormControl.hasError('required')">
+          Account Type is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Occurs</mat-label>
+        <mat-select [formControl]="occursFormControl" [errorStateMatcher]="matcher">
+            <mat-option value="Daily">Daily</mat-option>
+            <mat-option value="Weekly">Weekly</mat-option>
+            <mat-option value="Semi-monthly">Semi monthly</mat-option>
+            <mat-option value="Monthly">Monthly</mat-option>
+        </mat-select>
+        <mat-hint>Occurs</mat-hint>
+        <mat-error *ngIf="occursFormControl.hasError('required')">
+          Occurs is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Recurs every month</mat-label>
+        <mat-select [formControl]="recursFormControl" [errorStateMatcher]="matcher">
+            <mat-option value="1">1</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="4">4</mat-option>
+            <mat-option value="5">5</mat-option>
+            <mat-option value="6">6</mat-option>
+            <mat-option value="7">7</mat-option>
+            <mat-option value="8">8</mat-option>
+            <mat-option value="9">9</mat-option>
+            <mat-option value="10">10</mat-option>
+            <mat-option value="11">11</mat-option>
+            <mat-option value="12">12</mat-option>
+        </mat-select>
+        <mat-hint>Recurs every month</mat-hint>
+        <mat-error *ngIf="recursFormControl.hasError('required')">
+          Recurs every month is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" [formControl]="startDateFormControl" [errorStateMatcher]="matcher">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="startDateFormControl.hasError('required')">
+          Date is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Entry Description</mat-label>
+        <input type="text" matInput [formControl]="entryDescriptionFormControl" [errorStateMatcher]="matcher"
+               placeholder="Entry Description" >
+        <mat-hint>Entry Description</mat-hint>
+        <mat-error *ngIf="entryDescriptionFormControl.hasError('required')">
+          Entry Description is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Amount</mat-label>
+        <input type="" matInput [formControl]="amountFormControl" [errorStateMatcher]="matcher" placeholder="Amount" (keypress)="numberForAmountOnly($event)">
+        <mat-hint>Amount</mat-hint> 
+        <mat-error *ngIf="amountFormControl.hasError('required') || amountFormControl.hasError('conflict')">
+          Amount is required if Total Amount is not provided.
+        </mat-error>
+        <mat-error *ngIf="amountFormControl.hasError('pattern')">
+          Please enter a valid amount.
+        </mat-error>      
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Number of Payment</mat-label>
+        <input type="text" matInput [formControl]="numberOfPaymentFormControl" [errorStateMatcher]="matcher" placeholder="Number of Payment" (keypress)="numberOnly($event)">
+        <mat-hint>Number of Payment</mat-hint>     
+        <mat-error *ngIf="numberOfPaymentFormControl.hasError('required') || numberOfPaymentFormControl.hasError('conflict')">
+          Number of Payments is required if Total Amount or Amount are not provided.
+      </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Total Amount</mat-label>
+        <input type="text" matInput [formControl]="totalAmountFormControl" [errorStateMatcher]="matcher" placeholder="Total Amount" (keypress)="numberForAmountOnly($event)">
+        <mat-hint>Total Amount</mat-hint>
+        <mat-error *ngIf="totalAmountFormControl.hasError('required') || totalAmountFormControl.hasError('conflict')">
+          Total Amount is required if Amount is empty.
+        </mat-error>
+        <mat-error *ngIf="totalAmountFormControl.hasError('pattern')">
+          Please enter a valid total amount.
+        </mat-error>        
+      </mat-form-field>
+    
+      <div style="margin-top: 20px;">
+        <button mat-raised-button type="submit" style="background-color: #49AF41; margin-right: 15px;">Submit</button>
+        <button mat-raised-button (click)="close()" style="background-color: #b01313;">Close</button>
+        
+      </div>
+</form>

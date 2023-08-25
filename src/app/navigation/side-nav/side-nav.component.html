@@ -1,0 +1,36 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <div style="text-align: center; width: 100%;"  >
+            <img routerLink="/" id="logo" src="./assets/Screenshot_1.png" alt="">
+            <hr style="color: black; margin-top: 10px;">
+        </div>
+        <div class="container-buttons" style="display: flex; flex-direction: column; align-items: start; width: 100%; padding: 0px 5px;">
+            <button class="icons" mat-button routerLink="/all-transactions"><mat-icon>paid</mat-icon><span>All transactions</span></button>
+            <button class="icons" mat-button routerLink="/accounts"><mat-icon>person_add</mat-icon><span>Store Account</span></button>
+        </div>
+    </mat-drawer>
+  
+    <div style="display: flex; justify-content: space-between; background-color: #313745;">
+      <button type="button" mat-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+            <mat-icon>logout</mat-icon>
+          <span>Log Out</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>person_search</mat-icon>
+          <span>Profile</span>
+        </button>
+      </mat-menu>
+    </div>
+    <div class="example-sidenav-content">
+        <router-outlet></router-outlet>
+    </div>
+  
+  </mat-drawer-container>
+  
