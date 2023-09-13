@@ -4,7 +4,7 @@ export interface TableInterface {
     Status: string;
     TotalAmount: string;
     StartDate: string;
-    EndDate: string;  // Add this property
+    EndDate: string;
     Description: string;
     ScheduleId: string;
 }

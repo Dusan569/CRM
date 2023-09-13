@@ -35,7 +35,7 @@ export class AccountService{
             
             // Update the local data
             this.accounts.push(info);
-            this.accountListSubject.next(this.accounts);  // Notify subscribers of the change
+            this.accountListSubject.next(this.accounts); 
         });
     }
     fetchAccountInfoFromFirebase(): void {
@@ -43,7 +43,7 @@ export class AccountService{
         .subscribe(response => {
 
             this.accounts = Object.values(response);
-            this.accountListSubject.next(this.accounts);  // Notify subscribers of the change
+            this.accountListSubject.next(this.accounts); 
         });
     }
     

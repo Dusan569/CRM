@@ -100,7 +100,6 @@ export class PopupComponent {
     }
 
     if (this.accountForm.valid) {
-      // const formValue = { ...this.accountForm.value };  // Create a copy of the form value
 
       if (this.accountForm.value.StartDate) {
         const dateValue = new Date(this.accountForm.value.StartDate);
