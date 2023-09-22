@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { TransactionInfo } from "./table-all-transactions.component";
+import { TransactionInfo } from './interfaces/all-transactions-table.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ClientService{

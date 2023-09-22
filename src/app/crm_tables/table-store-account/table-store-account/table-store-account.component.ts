@@ -25,7 +25,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class TableStoreAccountComponent {
   errorMessage: string = '';
-  //Table
   showTable = false;
   //Table clumns
   displayedColumns: string[] = ['ID','Merchant Name', 'Status', 'Total Amount', 'Start Date','End Date', 'Description', 'Detail'];

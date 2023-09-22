@@ -3,23 +3,17 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClientService } from './table-all-transactions.service';
-import { TransactionDataService } from 'src/app/data/get-transation-data/transation-data.service';
+import { TransactionDataService } from 'src/app/data/all-transactions-data.service';
 import { Subject, interval } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
-
-export interface TransactionInfo {
-  AccountName: string;
-  UserData: string;
-  Amount: number;
-  AccountNumber: string;
-}
+import { TransactionInfo } from './interfaces/all-transactions-table.interface';
 
 @Component({
   selector: 'app-table-all-transactions',
   templateUrl: './table-all-transactions.component.html',
   styleUrls: ['./table-all-transactions.component.css']
 })
-export class TableAllTransactionsComponent implements OnInit, OnDestroy {
+export class TableAllTransactionsComponent {
   displayedColumns: string[] = ['AccountNumber', 'AccountName', 'UserData', 'Amount'];
   dataSource: MatTableDataSource<TransactionInfo> = new MatTableDataSource<TransactionInfo>();
   destroy$: Subject<void> = new Subject<void>();
@@ -28,10 +22,7 @@ export class TableAllTransactionsComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(
-    private clientService: ClientService,
-    private transactionData: TransactionDataService
-  ) {}
+  constructor(private clientService: ClientService, private transactionData: TransactionDataService) {}
 
   ngOnInit() {
     this.fetchDataAndRefresh(); 

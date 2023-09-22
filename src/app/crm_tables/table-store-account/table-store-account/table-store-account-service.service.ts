@@ -34,8 +34,7 @@ export class AccountService{
             console.log("Data stored to Firebase");
             
             // Update the local data
-            this.accounts.push(info);
-            this.accountListSubject.next(this.accounts); 
+            this.updateAccountInfoTable(info);
         });
     }
     fetchAccountInfoFromFirebase(): void {

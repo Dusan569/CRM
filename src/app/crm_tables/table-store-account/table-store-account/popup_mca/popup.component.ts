@@ -99,6 +99,7 @@ export class PopupComponent {
         this.isLoading = false;
     }
 
+    //Form is valid
     if (this.accountForm.valid) {
 
       if (this.accountForm.value.StartDate) {
