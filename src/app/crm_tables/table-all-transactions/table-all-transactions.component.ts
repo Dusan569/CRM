@@ -48,8 +48,6 @@ export class TableAllTransactionsComponent implements OnInit, OnDestroy {
     ).subscribe(response => {
 
       this.isLoading = true;
-
-      console.log(response);
       
       const transactionInfoList: TransactionInfo[] = response.EntryDetail
         .filter(entry => entry.ACHProcessingStatus !== 'Deleted')

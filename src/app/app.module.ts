@@ -9,6 +9,12 @@ import { SideNavComponent } from './navigation/side-nav/side-nav.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TableStoreAccountComponent } from './crm_tables/table-store-account/table-store-account/table-store-account.component';
 import { ReactiveFormsModule } from '@angular/forms'; 
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+
+
+
 
 //Angular Material
 import {MatIconModule} from '@angular/material/icon';
@@ -31,7 +37,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { McaInfoComponent } from './crm_tables/table-store-account/table-store-account/mca-info/mca-info.component';
-
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -65,7 +71,10 @@ import { McaInfoComponent } from './crm_tables/table-store-account/table-store-a
     MatNativeDateModule,
     MatDatepickerModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
   bootstrap: [AppComponent]
